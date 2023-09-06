@@ -1,13 +1,5 @@
 import React from "react";
 
-const Title = () => {
-  return <head>
-    <title>
-      Anyway HOME
-    </title>
-  </head>
-}
-
 const Header = () => {
   return <header>
     <h1>Anyway HOME</h1>
