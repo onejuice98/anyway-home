@@ -1,9 +1,11 @@
 import React from "react";
 
 const Title = () => {
-  return <title>
-    Anyway HOME
-  </title>
+  return <head>
+    <title>
+      Anyway HOME
+    </title>
+  </head>
 }
 
 const Header = () => {
@@ -39,7 +41,6 @@ const ButtonStart = () => {
 function App() {
   return (
     <div className="App">
-      <Title></Title>
       <Header></Header>
       <InputAddress></InputAddress>
       <ButtonSearchAddress></ButtonSearchAddress>
