@@ -1,28 +1,29 @@
 import {Link} from "react-router-dom";
+import React, {useState} from "react"
 
 
-export const Title = () => {
+const Title = (props: any) => {
     return (
-    <h1 className="flex justify-center">
+    <h1 className={props.className}>
         Anyway HOME
     </h1>);
 };
 
-const InputAddress = () => {
+const InputAddress = (props: any) => {
     return (
-        <input className="p-2 mr-2 rounded" type="text" placeholder="주소를 입력하세요" />
+        <input className={props.className} type={props.type} placeholder={props.placeholder} onChange={props.onChange}/>
     );
 }
 
-const ButtonSearchAddress = () => {
+const ButtonSearchAddress = (props: any) => {
     return (
-        <button className="p-2 bg-blue-500 rounded hover:bg-blue-700">
+        <button className={props.className}>
         검색
         </button>
     );
 }
 
-const DestinationPreview = () => {
+const DestinationPreview = (props: any) => {
     return (
         <div className="bg-blue-300 h-screen m-10 flex justify-center items-center rounded-lg">
             destination preview
@@ -30,6 +31,23 @@ const DestinationPreview = () => {
     );
 }
 
+const SearchAddress = () => {
+    const [address, setAddress] = useState("");
+
+    const onChange = (event: React.FormEvent<HTMLInputElement>) => setAddress(event.currentTarget.value);
+
+    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      alert(address);
+    };
+    
+    return (
+      <form onSubmit={onSubmit}>
+        <InputAddress onChange={onChange} type="text" placeholder="주소를 입력하세요" className="p-2 mr-2 rounded"/>
+        <ButtonSearchAddress className="p-2 bg-blue-500 rounded hover:bg-blue-700"/>
+      </form>
+    );
+}
 
 const Main = () => {
     return (<div> This is Main
@@ -39,14 +57,10 @@ const Main = () => {
         </div>
 
         <div className="grid place-items-center">
-                <Title />
-                <form>
-                    <InputAddress />
-                    <ButtonSearchAddress />
-                </form>
-                
-                
+                <Title className="flex justify-center text-6xl"/>
+                <SearchAddress />
         </div>
+
         <DestinationPreview/>
 
     </div>)
