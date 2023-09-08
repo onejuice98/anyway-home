@@ -24,7 +24,7 @@ const ButtonSearchAddress = () => {
 
 const DestinationPreview = () => {
     return (
-        <div className="flex justify-center items-center w-40 h-40 bg-blue-500">
+        <div className="bg-blue-300 h-screen m-10 flex justify-center items-center rounded-lg">
             destination preview
         </div>
     );
@@ -32,21 +32,22 @@ const DestinationPreview = () => {
 
 
 const Main = () => {
-    return (<div className="m-4 mb-7"> This is Main
-        <div className="flex flex-col gap-2 mt-4">
+    return (<div> This is Main
+        <div>
             <Link to="/roadview"><button className="p-4 bg-emerald-500 rounded hover:bg-emerald-700">Roadview</button></Link>
             <Link to="/credits"><button className="p-4 bg-pink-500 rounded hover:bg-pink-700">Credits</button></Link>
         </div>
 
         <div className="grid place-items-center">
                 <Title />
-                <div>
+                <form>
                     <InputAddress />
                     <ButtonSearchAddress />
-                </div>
-                <DestinationPreview/>
-            
+                </form>
+                
+                
         </div>
+        <DestinationPreview/>
 
     </div>)
 }
