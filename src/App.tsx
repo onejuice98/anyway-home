@@ -2,7 +2,7 @@ import React from "react";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Main from "./pages/Main/Main";
 import Roadview from "./pages/Roadview/Roadview";
-import Credit from "./pages/Credit/Credit";
+import Credits from "./pages/Credits/Credits";
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
           <Routes>
               <Route path="/" element={<Main/>}/>
               <Route path="/roadview" element={<Roadview/>}/>
-              <Route path="/credit" element={<Credit/>}/>
+              <Route path="/credits" element={<Credits/>}/>
           </Routes>
       </BrowserRouter>
     </div>
