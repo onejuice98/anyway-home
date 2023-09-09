@@ -1,6 +1,15 @@
 import {Link} from "react-router-dom";
 import React, {ReactHTMLElement, useState} from "react"
 
+interface DestinationPreviewProps {
+    address: string;
+}
+
+interface SearchAddressProps {
+    address: string;
+    onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+}
+
 
 const Title = (props: any) => {
     return (
@@ -24,33 +33,32 @@ const Title = (props: any) => {
 //     );
 // }
 
-const DestinationPreview = (props: any) => {
+const DestinationPreview = ({address}: DestinationPreviewProps) => {
     return (
         <div className="bg-blue-300 h-screen m-10 flex justify-center items-center rounded-lg">
-            destination preview
+            {address}
         </div>
     );
 }
 
-const SearchAddress = () => {
-    const [address, setAddress] = useState("");
-
-    const onChange = (event: React.FormEvent<HTMLInputElement>) => setAddress(event.currentTarget.value);
-
-    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      alert(address);
-    };
+const SearchAddress = ({address, onSubmit}: SearchAddressProps) => {
     
     return (
       <form onSubmit={onSubmit}>
-        <input type="text" onChange={onChange}placeholder="주소를 입력하세요" className="p-2 mr-2 rounded"/>
-        <button className="p-2 bg-blue-500 rounded hover:bg-blue-700">검색</button>
+        <input id="inputAddress" type="text" placeholder="주소를 입력하세요" className="p-2 mr-2 rounded"/>
+        <button type="submit" className="p-2 bg-blue-500 rounded hover:bg-blue-700">검색</button>
       </form>
     );
 }
 
 const Main = () => {
+    const [address, setAddress] = useState("");
+
+    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setAddress(event.currentTarget.inputAddress.value);
+      };
+
     return (<div> This is Main
         <div>
             <Link to="/roadview"><button className="p-4 bg-emerald-500 rounded hover:bg-emerald-700">Roadview</button></Link>
@@ -59,11 +67,11 @@ const Main = () => {
 
         <div className="grid place-items-center">
                 <Title className="flex justify-center text-6xl"/>
-                <SearchAddress />
+                <SearchAddress address={address} onSubmit={onSubmit}/>
         </div>
 
-        <DestinationPreview/>
-
+        {address !== "" && <DestinationPreview address={address}/>}
+        
     </div>)
 }
 

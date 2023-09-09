@@ -2,7 +2,9 @@ import React from "react";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Main from "./pages/Main/Main";
 import Roadview from "./pages/Roadview/Roadview";
+import Ranking from "./pages/Ranking/Ranking";
 import Credits from "./pages/Credits/Credits";
+
 
 function App() {
   return (
