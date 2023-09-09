@@ -1,5 +1,5 @@
 import {Link} from "react-router-dom";
-import React, {useState} from "react"
+import React, {ReactHTMLElement, useState} from "react"
 
 
 const Title = (props: any) => {
@@ -9,19 +9,20 @@ const Title = (props: any) => {
     </h1>);
 };
 
-const InputAddress = (props: any) => {
-    return (
-        <input className={props.className} type={props.type} placeholder={props.placeholder} onChange={props.onChange}/>
-    );
-}
+// *주소 입력 관련 컴포넌트* --> props 사용 확실 시까지 주석처리 
+// const InputAddress = (props: HTMLInputElement) => {
+//     return (
+//         <input className={props.className} value={props.value} type={props.type} placeholder={props.placeholder} onChange={props.onChange}/>
+//     );
+// }
 
-const ButtonSearchAddress = (props: any) => {
-    return (
-        <button className={props.className}>
-        검색
-        </button>
-    );
-}
+// const ButtonSearchAddress = (props: HTMLButtonElement) => {
+//     return (
+//         <button className={props.className}>
+//             검색
+//         </button>
+//     );
+// }
 
 const DestinationPreview = (props: any) => {
     return (
@@ -43,8 +44,8 @@ const SearchAddress = () => {
     
     return (
       <form onSubmit={onSubmit}>
-        <InputAddress onChange={onChange} type="text" placeholder="주소를 입력하세요" className="p-2 mr-2 rounded"/>
-        <ButtonSearchAddress className="p-2 bg-blue-500 rounded hover:bg-blue-700"/>
+        <input type="text" onChange={onChange}placeholder="주소를 입력하세요" className="p-2 mr-2 rounded"/>
+        <button className="p-2 bg-blue-500 rounded hover:bg-blue-700">검색</button>
       </form>
     );
 }
