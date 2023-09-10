@@ -35,7 +35,7 @@ const Title = (props: any) => {
 
 const DestinationPreview = ({address}: DestinationPreviewProps) => {
     return (
-        <div className="bg-blue-300 h-screen m-10 flex justify-center items-center rounded-lg">
+        <div className="bg-blue-300 h-screen w-screen mb-3 flex justify-center items-center rounded-lg">
             {address}
         </div>
     );
@@ -44,7 +44,7 @@ const DestinationPreview = ({address}: DestinationPreviewProps) => {
 const SearchAddress = ({address, onSubmit}: SearchAddressProps) => {
     
     return (
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} className="m-5">
         <input id="inputAddress" type="text" placeholder="주소를 입력하세요" className="p-2 mr-2 rounded"/>
         <button type="submit" className="p-2 bg-blue-500 rounded hover:bg-blue-700">검색</button>
       </form>
@@ -66,12 +66,14 @@ const Main = () => {
         </div>
 
         <div className="grid place-items-center">
-                <Title className="flex justify-center text-6xl"/>
+                <Title className="flex justify-center text-6xl m-4"/>
                 <SearchAddress address={address} onSubmit={onSubmit}/>
         </div>
 
-        {address !== "" && <DestinationPreview address={address}/>}
-        
+        <div className="grid place-items-center">
+            {address !== "" && <DestinationPreview address={address}/>}
+            {address !== "" && <button className="flex justify-center items-center bg-blue-400 p-5 rounded-lg hover:bg-blue-500">시작</button>}
+        </div>
     </div>)
 }
 
