@@ -14,6 +14,7 @@ function App() {
               <Route path="/" element={<Main/>}/>
               <Route path="/roadview" element={<Roadview/>}/>
               <Route path="/credits" element={<Credits/>}/>
+              <Route path="/ranking" element={<Ranking/>}/>
           </Routes>
       </BrowserRouter>
     </div>
