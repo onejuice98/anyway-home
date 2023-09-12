@@ -1,4 +1,5 @@
 import {Link} from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import React, {ReactHTMLElement, useState} from "react"
 
 interface DestinationPreviewProps {
@@ -54,10 +55,19 @@ const SearchAddress = ({address, onSubmit}: SearchAddressProps) => {
 const Main = () => {
     const [address, setAddress] = useState("");
 
-    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setAddress(event.currentTarget.inputAddress.value);
       };
+
+
+      const navigate = useNavigate();
+
+      const buttonStart = () => {
+        navigate('/Roadview', {state: {address}});
+      };
+      
+
 
     return (<div> This is Main
         <div>
@@ -68,12 +78,12 @@ const Main = () => {
 
         <div className="grid place-items-center">
                 <Title className="flex justify-center text-6xl m-4"/>
-                <SearchAddress address={address} onSubmit={onSubmit}/>
+                <SearchAddress address={address} onSubmit={submitHandler}/>
         </div>
 
         <div className="grid place-items-center">
             {address !== "" && <DestinationPreview address={address}/>}
-            {address !== "" && <button className="flex justify-center items-center bg-blue-400 p-5 rounded-lg hover:bg-blue-500">시작</button>}
+            {address !== "" && <button onClick={buttonStart} className="flex justify-center items-center bg-blue-400 p-5 rounded-lg hover:bg-blue-500">시작</button>}
         </div>
     </div>)
 }

@@ -1,12 +1,17 @@
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 interface ButtonToggleMapProps {
 	toggleMap: boolean;
 	onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
+
 const AddressToGo = () => {
-	return <div className="mr-3 bg-blue-400 w-fit h-fit p-1 rounded-md text-2xl">입력받은 주소</div>;
+    const addressLocation = useLocation();
+    const address = addressLocation.state.address;
+
+	return <div className="mr-3 bg-blue-400 w-fit h-fit p-1 rounded-md text-2xl">도착지: {address}</div>;
 };
 
 const Playtime = () => {
@@ -33,7 +38,7 @@ const MapWindow = () => {
 const Roadview = () => {
 	const [toggleMap, setToggleMap] = useState(false);
 
-	const onClick = () => {
+	const clickHandler = () => {
 		if (toggleMap == false) {
 			setToggleMap(true);
 		} else {
@@ -51,7 +56,7 @@ const Roadview = () => {
 			</div>
             <div className="flex">
                 <Playtime />
-				<ButtonToggleMap toggleMap={toggleMap} onClick={onClick} />
+				<ButtonToggleMap toggleMap={toggleMap} onClick={clickHandler} />
             </div>
             <div>
 				<RoadviewWindow />
