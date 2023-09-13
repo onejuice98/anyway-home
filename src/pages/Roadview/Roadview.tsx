@@ -1,10 +1,21 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Map, MapMarker } from "react-kakao-maps-sdk"
+import useKakaoLoader from "./useKakaoLoader"
 import { useLocation } from 'react-router-dom';
+
 
 interface ButtonToggleMapProps {
 	toggleMap: boolean;
 	onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
+
+// declare global {
+//     interface Window {
+//         kakao: any;
+//     }
+// }
+// export {};
+
 
 
 const AddressToGo = () => {
@@ -32,11 +43,49 @@ const RoadviewWindow = () => {
 };
 
 const MapWindow = () => {
-	return <div className="absolute right-10 top-10 w-1/4 h-1/4 rounded-lg flex justify-center items-center bg-orange-500 w-100">map window</div>;
+
+    // useEffect(() => {
+    //     const container = document.getElementById('map');
+    //     const options = {
+    //     center: new window.kakao.maps.LatLng(33.450701, 126.570667),
+    //     level: 3
+    // };
+    //     const map = new window.kakao.maps.Map(container, options);
+    // }, [])
+
+
+    useKakaoLoader()
+
+	return (
+        <Map // 지도를 표시할 Container
+            id="map"
+            center={{
+                // 지도의 중심좌표
+                lat: 33.450701,
+                lng: 126.570667,
+            }}
+            style={{
+                // 지도의 크기
+                width: "100%",
+                height: "100%",
+            }}
+            level={3} // 지도의 확대 레벨
+            className="rounded-lg"
+        >
+        <MapMarker // 마커를 생성합니다
+        position={{
+          // 마커가 표시될 위치입니다
+          lat: 33.450701,
+          lng: 126.570667,
+        }}
+      />
+      </Map>
+        );
 };
 
 const Roadview = () => {
 	const [toggleMap, setToggleMap] = useState(false);
+    
 
 	const clickHandler = () => {
 		if (toggleMap == false) {
@@ -44,9 +93,10 @@ const Roadview = () => {
 		} else {
 			setToggleMap(false);
 		}
-
-		console.log(toggleMap);
 	};
+
+    
+
 
 	return (
 		<div>
@@ -61,7 +111,9 @@ const Roadview = () => {
             <div>
 				<RoadviewWindow />
 			</div>
-			{toggleMap !== false && <MapWindow />}
+            <div className="absolute right-10 top-10 w-1/4 h-1/4">
+			    {toggleMap !== false && <MapWindow />}
+            </div>
 		</div>
 	);
 };
