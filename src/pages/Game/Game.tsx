@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Map, MapMarker, Roadview } from "react-kakao-maps-sdk"
-import useKakaoLoader from "./useKakaoLoader"
+import useKakaoLoader from "../useKakaoLoader"
 import { useLocation } from 'react-router-dom';
 
 
@@ -133,6 +133,3 @@ const Game = () => {
 };
 
 export default Game;
-
-
-

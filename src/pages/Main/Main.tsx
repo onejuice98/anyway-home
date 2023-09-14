@@ -1,5 +1,6 @@
 import {Link} from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
+import DaumPostcodeEmbed from 'react-daum-postcode';
 import React, {ReactHTMLElement, useState} from "react"
 
 interface DestinationPreviewProps {
@@ -61,6 +62,26 @@ const Main = () => {
       };
 
 
+    
+    const handleComplete = (data: any) => {
+    let fullAddress = data.address;
+    let extraAddress = '';
+
+    if (data.addressType === 'R') {
+        if (data.bname !== '') {
+        extraAddress += data.bname;
+        }
+        if (data.buildingName !== '') {
+        extraAddress += extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
+        }
+        fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
+    }
+
+    setAddress(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+    };
+    
+
+
       const navigate = useNavigate();
 
       const buttonStart = () => {
@@ -78,7 +99,9 @@ const Main = () => {
 
         <div className="grid place-items-center">
                 <Title className="flex justify-center text-6xl m-4"/>
-                <SearchAddress address={address} onSubmit={submitHandler}/>
+                <div className="w-100 h-100 m-4">
+                    <DaumPostcodeEmbed onComplete={handleComplete} />
+                </div>
         </div>
 
         <div className="grid place-items-center">
