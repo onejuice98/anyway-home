@@ -24,4 +24,4 @@ yarn-error.log*
 
 anyway-home
 
-src/Game/useKakaoLoader.tsx
+src/useKakaoLoader.tsx
