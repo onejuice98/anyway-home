@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Map, MapMarker } from "react-kakao-maps-sdk"
+import { Map, MapMarker, Roadview } from "react-kakao-maps-sdk"
 import useKakaoLoader from "./useKakaoLoader"
 import { useLocation } from 'react-router-dom';
 
@@ -38,8 +38,23 @@ const ButtonToggleMap = ({ toggleMap, onClick }: ButtonToggleMapProps) => {
 };
 
 const RoadviewWindow = () => {
-	return <div className="bg-blue-300 h-screen mt-3 m-5 flex justify-center items-center rounded-lg">roadview window
-    </div>;
+  useKakaoLoader()
+
+	return (
+      <Roadview position={{
+        // 지도의 중심좌표
+        lat: 33.450701,
+        lng: 126.570667,
+        radius: 50,
+        }}
+        style={{
+          // 지도의 크기
+          width: "100%",
+          height: "100%",
+        }}
+        className="h-screen mt-3 m-5 rounded-lg">
+      </Roadview>
+      );
 };
 
 const MapWindow = () => {
@@ -52,7 +67,6 @@ const MapWindow = () => {
     // };
     //     const map = new window.kakao.maps.Map(container, options);
     // }, [])
-
 
     useKakaoLoader()
 
@@ -70,6 +84,7 @@ const MapWindow = () => {
                 height: "100%",
             }}
             level={3} // 지도의 확대 레벨
+            draggable={true}
             className="rounded-lg"
         >
         <MapMarker // 마커를 생성합니다
@@ -83,7 +98,7 @@ const MapWindow = () => {
         );
 };
 
-const Roadview = () => {
+const Game = () => {
 	const [toggleMap, setToggleMap] = useState(false);
     
 
@@ -94,9 +109,6 @@ const Roadview = () => {
 			setToggleMap(false);
 		}
 	};
-
-    
-
 
 	return (
 		<div>
@@ -109,7 +121,9 @@ const Roadview = () => {
 				<ButtonToggleMap toggleMap={toggleMap} onClick={clickHandler} />
             </div>
             <div>
-				<RoadviewWindow />
+              <div className="h-screen mt-3 m-5 rounded-lg">
+				        <RoadviewWindow />
+              </div>
 			</div>
             <div className="absolute right-10 top-10 w-1/4 h-1/4">
 			    {toggleMap !== false && <MapWindow />}
@@ -118,7 +132,7 @@ const Roadview = () => {
 	);
 };
 
-export default Roadview;
+export default Game;
 
 
 

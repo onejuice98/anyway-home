@@ -64,14 +64,14 @@ const Main = () => {
       const navigate = useNavigate();
 
       const buttonStart = () => {
-        navigate('/Roadview', {state: {address}});
+        navigate('/game', {state: {address}});
       };
       
 
 
     return (<div> This is Main
         <div>
-            <Link to="/roadview"><button className="p-4 bg-emerald-500 rounded hover:bg-emerald-700">Roadview</button></Link>
+            <Link to="/roadviewpage"><button className="p-4 bg-emerald-500 rounded hover:bg-emerald-700">Roadview</button></Link>
             <Link to="/credits"><button className="p-4 bg-pink-500 rounded hover:bg-pink-700">Credits</button></Link>
             <Link to="/ranking"><button className="p-4 bg-orange-500 rounded hover:bg-orange-700">Ranking</button></Link>
         </div>
