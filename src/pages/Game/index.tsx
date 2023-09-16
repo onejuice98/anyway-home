@@ -10,19 +10,16 @@ import GameContent from "./components/GameContent";
 // export {};
 
 const Game = () => {
-  const [toggleMap, setToggleMap] = useState(false);
+  // Map 표시 상태
+  const [toggleMap, setToggleMap] = useState<boolean>(false);
 
-  const clickHandler = () => {
-    if (toggleMap === false) {
-      setToggleMap(true);
-    } else {
-      setToggleMap(false);
-    }
+  const handleToggle = () => {
+    setToggleMap((prev) => !prev);
   };
 
   return (
     <div>
-      <GameHeader handleOpen={clickHandler} />
+      <GameHeader handleOpen={handleToggle} />
       <GameContent mapOpen={toggleMap} />
     </div>
   );

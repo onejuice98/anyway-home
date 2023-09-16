@@ -6,8 +6,6 @@ interface GameContentProps {
 }
 
 const RoadviewWindow = () => {
-  useKakaoLoader();
-
   return (
     <Roadview
       position={{
@@ -34,8 +32,6 @@ const MapWindow = () => {
   // };
   //     const map = new window.kakao.maps.Map(container, options);
   // }, [])
-
-  useKakaoLoader();
 
   return (
     <Map // 지도를 표시할 Container
@@ -66,13 +62,14 @@ const MapWindow = () => {
 };
 
 const GameContent = ({ mapOpen }: GameContentProps) => {
+  useKakaoLoader();
   return (
     <>
       <div className="h-screen mt-3 m-5 rounded-lg">
         <RoadviewWindow />
       </div>
       <div className="absolute right-10 top-10 w-1/4 h-1/4">
-        {mapOpen !== false && <MapWindow />}
+        {!mapOpen && <MapWindow />}
       </div>
     </>
   );
