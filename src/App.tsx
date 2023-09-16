@@ -1,52 +1,24 @@
 import React from "react";
-import Main from "./main";
-
-const Header = () => {
-  return <header>
-    <h1>Anyway HOME</h1>
-  </header>
-}
-
-const InputAddress = () => {
-  return <input type="text" placeholder="주소를 입력하세요.">
-  </input>
-}
-
-const ButtonSearchAddress = () => {
-  return <button>
-    검색
-  </button>
-}
-
-const DestinationPreview = () => {
-  return <div>
-    space for preview
-  </div>
-}
-
-const ButtonStart = () => {
-  return <button>
-    시작
-  </button>
-}
+import {BrowserRouter, Routes, Route} from "react-router-dom";
+import Main from "./pages/Main/Main";
+import Game from "./pages/Game/Game";
+import Ranking from "./pages/Ranking/Ranking";
+import Credits from "./pages/Credits/Credits";
 
 
 function App() {
-    return (
-        <div className="App">
-            <Header></Header>
-            <InputAddress></InputAddress>
-            <ButtonSearchAddress></ButtonSearchAddress>
-            <DestinationPreview></DestinationPreview>
-            <ButtonStart></ButtonStart>
-            <Main/>
-        </div>
-    );
+  return (
+    <div className="App">
+      <BrowserRouter>
+          <Routes>
+              <Route path="/" element={<Main/>}/>
+              <Route path="/game" element={<Game/>}/>
+              <Route path="/credits" element={<Credits/>}/>
+              <Route path="/ranking" element={<Ranking/>}/>
+          </Routes>
+      </BrowserRouter>
+    </div>
+  );
 }
 
-
-
 export default App;
-
-
-//
