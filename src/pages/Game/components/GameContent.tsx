@@ -19,8 +19,8 @@ const RoadviewWindow = () => {
         width: "100%",
         height: "100%",
       }}
-      className="h-screen mt-3 m-5 rounded-lg"
-    ></Roadview>
+      className="rounded-lg"
+    />
   );
 };
 const MapWindow = () => {
@@ -65,7 +65,7 @@ const GameContent = ({ mapOpen }: GameContentProps) => {
   useKakaoLoader();
   return (
     <>
-      <div className="h-screen mt-3 m-5 rounded-lg">
+      <div className="h-full">
         <RoadviewWindow />
       </div>
       <div className="absolute right-10 top-10 w-1/4 h-1/4">

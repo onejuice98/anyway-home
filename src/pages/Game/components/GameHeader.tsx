@@ -41,7 +41,7 @@ const GameHeader = ({ handleOpen }: GameHeaderProps) => {
   return (
     <div>
       <AddressToGo />
-      <div className="flex">
+      <div className="flex gap-2 mt-2">
         <Playtime />
         <ButtonToggleMap onClick={handleOpen} />
       </div>

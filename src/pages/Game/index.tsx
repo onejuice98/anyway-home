@@ -18,7 +18,7 @@ const Game = () => {
   };
 
   return (
-    <div>
+    <div className="h-screen flex flex-col justify-between gap-2 p-4 ">
       <GameHeader handleOpen={handleToggle} />
       <GameContent mapOpen={toggleMap} />
     </div>
