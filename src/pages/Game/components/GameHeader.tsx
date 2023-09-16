@@ -1,10 +1,8 @@
 import { useLocation } from "react-router-dom";
+import AmtButton from "../../../common/AmtButton";
 
 interface GameHeaderProps {
   handleOpen: () => void;
-}
-interface ButtonToggleMapProps {
-  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const AddressToGo = () => {
@@ -26,24 +24,16 @@ const Playtime = () => {
   );
 };
 
-const ButtonToggleMap = ({ onClick }: ButtonToggleMapProps) => {
-  return (
-    <button
-      onClick={onClick}
-      className="bg-orange-300 hover:bg-orange-400 w-fit h-fit p-1 rounded-md text-2xl"
-    >
-      map
-    </button>
-  );
-};
-
 const GameHeader = ({ handleOpen }: GameHeaderProps) => {
   return (
     <div>
       <AddressToGo />
-      <div className="flex gap-2 mt-2">
+      <div className="flex gap-2 mt-2 items-center">
         <Playtime />
-        <ButtonToggleMap onClick={handleOpen} />
+        <AmtButton color="primary" onClick={handleOpen}>
+          Map
+        </AmtButton>
+        <div className="animate-wiggle text-2xl">👋</div>
       </div>
     </div>
   );
