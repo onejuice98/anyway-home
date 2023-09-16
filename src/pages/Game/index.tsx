@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Map, MapMarker, Roadview } from "react-kakao-maps-sdk";
 import useKakaoLoader from "../../util/hooks/useKakaoLoader";
 import { useLocation } from "react-router-dom";
@@ -110,7 +110,7 @@ const Game = () => {
   const [toggleMap, setToggleMap] = useState(false);
 
   const clickHandler = () => {
-    if (toggleMap == false) {
+    if (toggleMap === false) {
       setToggleMap(true);
     } else {
       setToggleMap(false);
