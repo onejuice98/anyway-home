@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import DaumPostcodeEmbed from "react-daum-postcode";
+import DaumPostcodeEmbed, { useDaumPostcodePopup } from "react-daum-postcode";
 import React, { useState } from "react";
 import LinkButton from "../../common/button/LinkButton";
 import AmtButton from "../../common/button/AmtButton";
@@ -10,9 +10,15 @@ interface DestinationPreviewProps {
 
 interface SearchAddressProps {
   address: string;
-  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  handleSearchClick: () => void;
 }
 
+type AddressDataType = {
+  address: string;
+  addressType: "R" | "J";
+  bname: string;
+  buildingName: string;
+};
 // *주소 입력 관련 컴포넌트* --> props 사용 확실 시까지 주석처리
 // const InputAddress = (props: HTMLInputElement) => {
 //     return (
@@ -36,44 +42,40 @@ const DestinationPreview = ({ address }: DestinationPreviewProps) => {
   );
 };
 
-const SearchAddress = ({ address, onSubmit }: SearchAddressProps) => {
+const SearchAddress = ({ address, handleSearchClick }: SearchAddressProps) => {
   return (
-    <form onSubmit={onSubmit} className="m-5">
+    <div
+      onClick={handleSearchClick}
+      className="flex justify-between items-center mt-5"
+    >
       <input
-        id="inputAddress"
+        value={address}
         type="text"
         placeholder="주소를 입력하세요"
-        className="p-2 mr-2 rounded"
+        className="w-[75%] p-2 mr-2 rounded border-gray-500 focus:outline-none focus:ring-2 focus:ring-sky-200 focus:border-transparent"
       />
-      <button
-        type="submit"
-        className="p-2 bg-blue-500 rounded hover:bg-blue-700"
-      >
+      <AmtButton color="secondary" onClick={handleSearchClick}>
         검색
-      </button>
-    </form>
+      </AmtButton>
+    </div>
   );
 };
 
 const Main = () => {
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState<string>("");
 
-  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setAddress(event.currentTarget.inputAddress.value);
-  };
+  const open = useDaumPostcodePopup();
+  const handleComplete = (data: AddressDataType) => {
+    const { address, addressType, bname, buildingName } = data;
 
-  const handleComplete = (data: any) => {
-    let fullAddress = data.address;
-    let extraAddress = "";
+    let fullAddress = address;
 
-    if (data.addressType === "R") {
-      if (data.bname !== "") {
-        extraAddress += data.bname;
-      }
-      if (data.buildingName !== "") {
+    if (addressType === "R") {
+      let extraAddress = bname;
+
+      if (buildingName) {
         extraAddress +=
-          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+          extraAddress !== "" ? `, ${buildingName}` : buildingName;
       }
       fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
@@ -90,9 +92,15 @@ const Main = () => {
   return (
     <div>
       <div className="flex gap-2">
-        <LinkButton color="primary">Roadview</LinkButton>
-        <LinkButton color="secondary">Credits</LinkButton>
-        <LinkButton color="danger">Ranking</LinkButton>
+        <LinkButton color="primary" url="/roadview">
+          Roadview
+        </LinkButton>
+        <LinkButton color="secondary" url="/credits">
+          Credits
+        </LinkButton>
+        <LinkButton color="danger" url="/ranking">
+          Ranking
+        </LinkButton>
       </div>
 
       <div className="grid place-items-center m-4">
@@ -100,7 +108,12 @@ const Main = () => {
           Anyway HOME
         </div>
         <div>
-          <DaumPostcodeEmbed onComplete={handleComplete} />
+          <SearchAddress
+            address={address}
+            handleSearchClick={() =>
+              open({ onComplete: handleComplete, autoClose: true })
+            }
+          />
         </div>
       </div>
 
