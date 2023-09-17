@@ -1,76 +1,61 @@
 import { Map, MapMarker, Roadview } from "react-kakao-maps-sdk";
 import useKakaoLoader from "../../../util/hooks/useKakaoLoader";
+import { useState } from "react";
 
 interface GameContentProps {
   mapOpen: boolean;
 }
 
-const RoadviewWindow = () => {
-  return (
-    <Roadview
-      position={{
-        // 지도의 중심좌표
-        lat: 33.450701,
-        lng: 126.570667,
-        radius: 50,
-      }}
-      style={{
-        // 지도의 크기
-        width: "100%",
-        height: "100%",
-      }}
-      className="rounded-lg"
-    />
-  );
+const ROADVIEW_CONFIG = {
+  // 로드뷰 크기
+  style: {
+    width: "100%",
+    height: "100%",
+  },
 };
-const MapWindow = () => {
-  // useEffect(() => {
-  //     const container = document.getElementById('map');
-  //     const options = {
-  //     center: new window.kakao.maps.LatLng(33.450701, 126.570667),
-  //     level: 3
-  // };
-  //     const map = new window.kakao.maps.Map(container, options);
-  // }, [])
 
-  return (
-    <Map // 지도를 표시할 Container
-      id="map"
-      center={{
-        // 지도의 중심좌표
-        lat: 33.450701,
-        lng: 126.570667,
-      }}
-      style={{
-        // 지도의 크기
-        width: "100%",
-        height: "100%",
-      }}
-      level={3} // 지도의 확대 레벨
-      draggable={true}
-      className="rounded-lg"
-    >
-      <MapMarker // 마커를 생성합니다
-        position={{
-          // 마커가 표시될 위치입니다
-          lat: 33.450701,
-          lng: 126.570667,
-        }}
-      />
-    </Map>
-  );
+const MAP_CONFIG = {
+  // 지도 크기
+  style: {
+    width: "25%",
+    height: "25%",
+  },
+};
+
+type positionType = { lat: number; lng: number };
+const DEFAULT_POSITION: positionType = {
+  lat: 33.450701,
+  lng: 126.570667,
 };
 
 const GameContent = ({ mapOpen }: GameContentProps) => {
   useKakaoLoader();
+
+  const [userPosition, setUserPosition] =
+    useState<positionType>(DEFAULT_POSITION);
+
   return (
     <>
-      <div className="h-full">
-        <RoadviewWindow />
-      </div>
-      <div className="absolute right-10 top-10 w-1/4 h-1/4">
-        {mapOpen && <MapWindow />}
-      </div>
+      <Roadview
+        // Radius 의 존재 의미?
+        // 해당 lat와 lng에 해당하는 radius범위 안에서 가장가까운 Roadview을 선택합니다.
+        // * 만약 없다면 lat, lng로 설정 됩니다.
+        position={{ ...userPosition, radius: 50 }}
+        style={ROADVIEW_CONFIG.style}
+        className="h-full rounded-lg"
+      />
+      {mapOpen && (
+        <Map // 지도를 표시할 Container
+          id="map"
+          center={userPosition}
+          style={MAP_CONFIG.style}
+          level={3} // 지도의 확대 레벨
+          draggable={true}
+          className="rounded-lg absolute right-10 top-10"
+        >
+          <MapMarker position={userPosition} />
+        </Map>
+      )}
     </>
   );
 };
