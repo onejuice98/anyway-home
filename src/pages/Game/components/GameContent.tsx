@@ -22,8 +22,8 @@ const MAP_CONFIG = {
   },
 };
 
-type positionType = { lat: number; lng: number };
-const DEFAULT_POSITION: positionType = {
+type PositionType = { lat: number; lng: number };
+const DEFAULT_POSITION: PositionType = {
   lat: 33.450701,
   lng: 126.570667,
 };
@@ -32,7 +32,7 @@ const GameContent = ({ mapOpen }: GameContentProps) => {
   useKakaoLoader();
 
   const [userPosition, setUserPosition] =
-    useState<positionType>(DEFAULT_POSITION);
+    useState<PositionType>(DEFAULT_POSITION);
 
   return (
     <>

@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import AmtButton from "../../../common/AmtButton";
+import AmtButton from "../../../common/button/AmtButton";
 
 interface GameHeaderProps {
   handleOpen: () => void;

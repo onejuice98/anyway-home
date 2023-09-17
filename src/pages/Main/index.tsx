@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import DaumPostcodeEmbed from "react-daum-postcode";
 import React, { useState } from "react";
+import LinkButton from "../../common/button/LinkButton";
 
 interface DestinationPreviewProps {
   address: string;
@@ -92,23 +92,9 @@ const Main = () => {
 
   return (
     <div>
-      <div>
-        <Link to="/roadviewpage">
-          <button className="p-4 bg-emerald-500 rounded hover:bg-emerald-700">
-            Roadview
-          </button>
-        </Link>
-        <Link to="/credits">
-          <button className="p-4 bg-pink-500 rounded hover:bg-pink-700">
-            Credits
-          </button>
-        </Link>
-        <Link to="/ranking">
-          <button className="p-4 bg-orange-500 rounded hover:bg-orange-700">
-            Ranking
-          </button>
-        </Link>
-      </div>
+      <LinkButton color="primary">Roadview</LinkButton>
+      <LinkButton color="secondary">Credits</LinkButton>
+      <LinkButton color="danger">Ranking</LinkButton>
 
       <div className="grid place-items-center">
         <Title className="flex justify-center text-6xl m-4" />
