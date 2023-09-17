@@ -1,6 +1,6 @@
-import { useNavigate } from "react-router-dom";
-import DaumPostcodeEmbed, { useDaumPostcodePopup } from "react-daum-postcode";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDaumPostcodePopup } from "react-daum-postcode";
 import LinkButton from "../../common/button/LinkButton";
 import AmtButton from "../../common/button/AmtButton";
 
@@ -36,7 +36,7 @@ type AddressDataType = {
 
 const DestinationPreview = ({ address }: DestinationPreviewProps) => {
   return (
-    <div className="bg-blue-300 h-screen w-screen mb-3 flex justify-center items-center rounded-lg">
+    <div className="bg-blue-300 h-full w-full mb-3 flex justify-center items-center rounded-lg">
       {address}
     </div>
   );
@@ -90,38 +90,40 @@ const Main = () => {
   };
 
   return (
-    <div>
-      <div className="flex gap-2">
-        <LinkButton color="primary" url="/roadview">
-          Roadview
-        </LinkButton>
-        <LinkButton color="secondary" url="/credits">
-          Credits
-        </LinkButton>
-        <LinkButton color="danger" url="/ranking">
-          Ranking
-        </LinkButton>
+    <div className="flex flex-col w-screen h-screen justify-between p-4">
+      <div>
+        {" "}
+        <div className="flex gap-2">
+          <LinkButton color="primary" url="/roadview">
+            Roadview
+          </LinkButton>
+          <LinkButton color="secondary" url="/credits">
+            Credits
+          </LinkButton>
+          <LinkButton color="danger" url="/ranking">
+            Ranking
+          </LinkButton>
+        </div>
+        <div className="grid place-items-center m-4">
+          <div className="flex justify-center text-6xl font-bold">
+            Anyway HOME
+          </div>
+          <div>
+            <SearchAddress
+              address={address}
+              handleSearchClick={() =>
+                open({ onComplete: handleComplete, autoClose: true })
+              }
+            />
+          </div>
+        </div>
       </div>
 
-      <div className="grid place-items-center m-4">
-        <div className="flex justify-center text-6xl font-bold">
-          Anyway HOME
-        </div>
-        <div>
-          <SearchAddress
-            address={address}
-            handleSearchClick={() =>
-              open({ onComplete: handleComplete, autoClose: true })
-            }
-          />
-        </div>
-      </div>
-
-      <div className="grid place-items-center">
+      <div className="flex flex-col h-full w-full justify-between items-center">
         {address && (
           <>
             <DestinationPreview address={address} />
-            <AmtButton color="secondary" onClick={buttonStart}>
+            <AmtButton color="primary" onClick={buttonStart}>
               시작
             </AmtButton>
           </>

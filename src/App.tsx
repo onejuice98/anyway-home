@@ -7,7 +7,7 @@ import Credits from "./pages/Credits";
 
 function App() {
   return (
-    <div className="App p-4">
+    <div className="App">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Main />} />
