@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import DaumPostcodeEmbed from "react-daum-postcode";
 import React, { useState } from "react";
 import LinkButton from "../../common/button/LinkButton";
+import AmtButton from "../../common/button/AmtButton";
 
 interface DestinationPreviewProps {
   address: string;
@@ -11,10 +12,6 @@ interface SearchAddressProps {
   address: string;
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 }
-
-const Title = (props: any) => {
-  return <h1 className={props.className}>Anyway HOME</h1>;
-};
 
 // *주소 입력 관련 컴포넌트* --> props 사용 확실 시까지 주석처리
 // const InputAddress = (props: HTMLInputElement) => {
@@ -92,26 +89,29 @@ const Main = () => {
 
   return (
     <div>
-      <LinkButton color="primary">Roadview</LinkButton>
-      <LinkButton color="secondary">Credits</LinkButton>
-      <LinkButton color="danger">Ranking</LinkButton>
+      <div className="flex gap-2">
+        <LinkButton color="primary">Roadview</LinkButton>
+        <LinkButton color="secondary">Credits</LinkButton>
+        <LinkButton color="danger">Ranking</LinkButton>
+      </div>
 
-      <div className="grid place-items-center">
-        <Title className="flex justify-center text-6xl m-4" />
-        <div className="w-100 h-100 m-4">
+      <div className="grid place-items-center m-4">
+        <div className="flex justify-center text-6xl font-bold">
+          Anyway HOME
+        </div>
+        <div>
           <DaumPostcodeEmbed onComplete={handleComplete} />
         </div>
       </div>
 
       <div className="grid place-items-center">
-        {address !== "" && <DestinationPreview address={address} />}
-        {address !== "" && (
-          <button
-            onClick={buttonStart}
-            className="flex justify-center items-center bg-blue-400 p-5 rounded-lg hover:bg-blue-500"
-          >
-            시작
-          </button>
+        {address && (
+          <>
+            <DestinationPreview address={address} />
+            <AmtButton color="secondary" onClick={buttonStart}>
+              시작
+            </AmtButton>
+          </>
         )}
       </div>
     </div>
