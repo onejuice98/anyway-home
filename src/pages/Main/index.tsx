@@ -92,7 +92,6 @@ const Main = () => {
   return (
     <div className="flex flex-col w-screen h-screen justify-between p-4">
       <div>
-        {" "}
         <div className="flex gap-2">
           <LinkButton color="primary" url="/roadview">
             Roadview
@@ -120,13 +119,15 @@ const Main = () => {
       </div>
 
       <div className="flex flex-col h-full w-full justify-between items-center">
-        {address && (
+        {address ? (
           <>
             <DestinationPreview address={address} />
             <AmtButton color="primary" onClick={buttonStart}>
               시작
             </AmtButton>
           </>
+        ) : (
+          <div className="text-6xl animate-moving">🫠</div>
         )}
       </div>
     </div>

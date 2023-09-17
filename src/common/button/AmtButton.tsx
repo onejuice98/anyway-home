@@ -5,7 +5,7 @@ const AmtButton = ({ color, children, onClick }: ButtonProps) => {
   return (
     <button
       className={cx(
-        "w-fit h-fit p-1 rounded-md text-2xl duration-200",
+        "w-fit h-fit p-2 rounded-md text-2xl duration-200 shadow-md ",
         buttonConfig[color].bgColor,
         buttonConfig[color].color,
         buttonConfig[color].hover
