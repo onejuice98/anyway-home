@@ -21,8 +21,10 @@ interface ButtonToggleMapProps {
 const AddressToGo = () => {
     const addressLocation = useLocation();
     const address = addressLocation.state.address;
+    // const xCoordinate = addressLocation.state.xCoordinate;
+    // const yCoordinate = addressLocation.state.yCoordinate;
 
-	return <div className="mr-3 bg-blue-400 w-fit h-fit p-1 rounded-md text-2xl">도착지: {address}</div>;
+	return <div className="mr-3 bg-blue-400 w-fit h-fit p-1 rounded-md text-2xl">도착지: {address} </div>;
 };
 
 const Playtime = () => {

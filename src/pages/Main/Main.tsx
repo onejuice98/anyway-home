@@ -2,6 +2,7 @@ import {Link} from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import DaumPostcodeEmbed from 'react-daum-postcode';
 import React, {ReactHTMLElement, useState} from "react"
+import useKakaoLoader from "../useKakaoLoader";
 
 interface DestinationPreviewProps {
     address: string;
@@ -54,7 +55,11 @@ const SearchAddress = ({address, onSubmit}: SearchAddressProps) => {
 }
 
 const Main = () => {
+    useKakaoLoader()
+
     const [address, setAddress] = useState("");
+    const [xCoordinate, setXCoordinate] = useState("");
+    const [yCoordinate, setYCoordinate] = useState("");
 
     const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -64,29 +69,44 @@ const Main = () => {
 
     
     const handleComplete = (data: any) => {
-    let fullAddress = data.address;
-    let extraAddress = '';
+        let fullAddress = data.address;
+        let extraAddress = '';
 
-    if (data.addressType === 'R') {
-        if (data.bname !== '') {
-        extraAddress += data.bname;
+        if (data.addressType === 'R') {
+            if (data.bname !== '') {
+            extraAddress += data.bname;
+            }
+            if (data.buildingName !== '') {
+            extraAddress += extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
+            }
+            fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
         }
-        if (data.buildingName !== '') {
-        extraAddress += extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
-        }
-        fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
-    }
 
-    setAddress(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+        setAddress(fullAddress);
     };
+
+    
+    // // 주소-좌표 변환 객체를 생성합니다
+    // const geocoder = new kakao.maps.services.Geocoder();
+
+    // // 주소로 좌표를 검색합니다
+    // geocoder.addressSearch(address, function(result, status) {
+
+    // // 정상적으로 검색이 완료됐으면 
+    //     if (status === kakao.maps.services.Status.OK) {
+    //         setXCoordinate(result[0].x);
+    //         setYCoordinate(result[0].y);
+    //         }
+    //     }
+    // );
     
 
 
-      const navigate = useNavigate();
+    const navigate = useNavigate();
 
-      const buttonStart = () => {
-        navigate('/game', {state: {address}});
-      };
+    const buttonStart = () => {
+    navigate('/game', {state: {address, xCoordinate, yCoordinate}});
+    };
       
 
 
