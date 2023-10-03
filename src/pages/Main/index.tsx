@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useDaumPostcodePopup } from "react-daum-postcode";
 import LinkButton from "../../common/button/LinkButton";
 import AmtButton from "../../common/button/AmtButton";
+import useAxios from "../../util/hooks/useAxios";
+import { getAddressByLatLng } from "../../util/api/kakaoLocal";
 
 interface DestinationPreviewProps {
   address: string;
@@ -64,6 +66,11 @@ const SearchAddress = ({ address, handleSearchClick }: SearchAddressProps) => {
 const Main = () => {
   const [address, setAddress] = useState<string>("");
 
+  const { data: latLng, apiPromise: getLatLng } = useAxios({
+    url: getAddressByLatLng,
+    method: "get",
+  });
+
   const open = useDaumPostcodePopup();
   const handleComplete = (data: AddressDataType) => {
     const { address, addressType, bname, buildingName } = data;
@@ -80,13 +87,14 @@ const Main = () => {
       fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
 
+    getLatLng({ address });
     setAddress(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
   };
 
   const navigate = useNavigate();
 
   const buttonStart = () => {
-    navigate("/game", { state: { address } });
+    navigate("/game", { state: { address, latLng } });
   };
 
   return (

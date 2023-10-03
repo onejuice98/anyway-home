@@ -2,8 +2,11 @@ import { Map, MapMarker, Roadview } from "react-kakao-maps-sdk";
 import useKakaoLoader from "../../../util/hooks/useKakaoLoader";
 import { useState } from "react";
 
+type PositionType = { lat: number; lng: number };
+
 interface GameContentProps {
   mapOpen: boolean;
+  latLng: PositionType;
 }
 
 const ROADVIEW_CONFIG = {
@@ -22,17 +25,10 @@ const MAP_CONFIG = {
   },
 };
 
-type PositionType = { lat: number; lng: number };
-const DEFAULT_POSITION: PositionType = {
-  lat: 33.450701,
-  lng: 126.570667,
-};
-
-const GameContent = ({ mapOpen }: GameContentProps) => {
+const GameContent = ({ mapOpen, latLng }: GameContentProps) => {
   useKakaoLoader();
 
-  const [userPosition, setUserPosition] =
-    useState<PositionType>(DEFAULT_POSITION);
+  const [userPosition, setUserPosition] = useState<PositionType>(latLng);
 
   return (
     <>
@@ -43,6 +39,10 @@ const GameContent = ({ mapOpen }: GameContentProps) => {
         position={{ ...userPosition, radius: 50 }}
         style={ROADVIEW_CONFIG.style}
         className="h-full rounded-lg"
+        onPositionChanged={(target) => {
+          const position = target.getPosition();
+          setUserPosition({ lat: position.getLat(), lng: position.getLng() });
+        }}
       />
       {mapOpen && (
         <Map // 지도를 표시할 Container

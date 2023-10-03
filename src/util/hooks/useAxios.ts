@@ -15,8 +15,9 @@ interface IAxios<T> {
  * @param method axios 방식
  * @returns api response (data)
  */
-const useAxios = <T, R>({ url, fixedParameter, method }: IAxios<T>) => {
-  const [data, setData] = useState<R>();
+const useAxios = <T>({ url, fixedParameter, method }: IAxios<T>) => {
+  // api response의 타입을 특정할 수 없기에 any로 설정 (R 미사용 -> 데이터 가공시 오류 발생)
+  const [data, setData] = useState<any>();
   const headers = {
     Authorization: `KakaoAK ${process.env.REACT_APP_KAKAO_LOADER_APP_KEY2}`,
   };
