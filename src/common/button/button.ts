@@ -23,6 +23,3 @@ export const buttonConfig = {
     hover: "hover:bg-third",
   },
 };
-
-// 86, 134, 130
-//

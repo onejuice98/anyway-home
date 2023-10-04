@@ -1,20 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDaumPostcodePopup } from "react-daum-postcode";
 import LinkButton from "../../common/button/LinkButton";
-import AmtButton from "../../common/button/AmtButton";
 import useAxios from "../../util/hooks/useAxios";
 import { getAddressByLatLng } from "../../util/api/kakaoLocal";
 import { Roadview } from "react-kakao-maps-sdk";
-
-interface SearchAddressProps {
-  address: string;
-  handleSearchClick: () => void;
-}
+import Button from "../../common/button";
+import DaumPostcodeEmbed from "react-daum-postcode";
 
 export type Position = { lat: number; lng: number; radius: number };
 
-type AddressDataType = {
+export type AddressDataType = {
   address: string;
   addressType: "R" | "J";
   bname: string;
@@ -29,49 +24,11 @@ export const ROADVIEW_CONFIG = {
     height: "100%",
   },
 };
-// *주소 입력 관련 컴포넌트* --> props 사용 확실 시까지 주석처리
-// const InputAddress = (props: HTMLInputElement) => {
-//     return (
-//         <input className={props.className} value={props.value} type={props.type} placeholder={props.placeholder} onChange={props.onChange}/>
-//     );
-// }
-
-// const ButtonSearchAddress = (props: HTMLButtonElement) => {
-//     return (
-//         <button className={props.className}>
-//             검색
-//         </button>
-//     );
-// }
-
-const SearchAddress = ({ address, handleSearchClick }: SearchAddressProps) => {
-  return (
-    <div
-      onClick={handleSearchClick}
-      className="flex justify-between items-center mt-5"
-    >
-      <input
-        value={address}
-        type="text"
-        placeholder="주소를 입력하세요"
-        className="w-[75%] p-2 mr-2 rounded border-gray-500 focus:outline-none focus:ring-2 focus:ring-sky-200 focus:border-transparent"
-      />
-      <AmtButton color="secondary" onClick={handleSearchClick}>
-        검색
-      </AmtButton>
-    </div>
-  );
-};
 
 const Main = () => {
   const [address, setAddress] = useState<string>("");
 
-  const [position, setPosition] = useState<Position>({
-    lat: 0,
-    lng: 0,
-    radius: DEFAULT_RADIUS,
-  });
-
+  const [position, setPosition] = useState<Position>({ lat: 0, lng: 0, radius: DEFAULT_RADIUS });
   const { apiPromise: getLatLng } = useAxios({
     url: getAddressByLatLng,
     method: "get",
@@ -85,8 +42,7 @@ const Main = () => {
     },
   });
 
-  const open = useDaumPostcodePopup();
-  const handleComplete = (data: AddressDataType) => {
+  const handleSearch = (data: AddressDataType) => {
     const { address, addressType, bname, buildingName } = data;
 
     let fullAddress = address;
@@ -95,8 +51,7 @@ const Main = () => {
       let extraAddress = bname;
 
       if (buildingName) {
-        extraAddress +=
-          extraAddress !== "" ? `, ${buildingName}` : buildingName;
+        extraAddress += extraAddress !== "" ? `, ${buildingName}` : buildingName;
       }
       fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
@@ -112,8 +67,9 @@ const Main = () => {
   };
 
   return (
-    <div className="flex flex-col w-screen h-screen justify-between p-4">
+    <div className="flex flex-col w-screen h-screen p-4 gap-2">
       <div>
+        {/* Header Link */}
         <div className="flex gap-2">
           <LinkButton color="primary" url="/roadview">
             Roadview
@@ -125,35 +81,26 @@ const Main = () => {
             Ranking
           </LinkButton>
         </div>
-        <div className="grid place-items-center m-4">
-          <div className="flex justify-center text-6xl font-bold">
-            Anyway HOME
-          </div>
-          <div>
-            <SearchAddress
-              address={address}
-              handleSearchClick={() =>
-                open({ onComplete: handleComplete, autoClose: true })
-              }
-            />
-          </div>
-        </div>
+        {/* Header Title  */}
+        <div className="flex justify-center text-6xl font-bold">Anyway HOME</div>
+      </div>
+      {/* Roadview Preview */}
+      <div className="flex justify-center mt-5">
+        <DaumPostcodeEmbed onComplete={handleSearch} style={{ width: "680px", height: "460px" }} className="border-2 shadow-lg" />
       </div>
 
-      <div className="flex flex-col h-full w-full justify-between items-center">
-        {position.lat !== 0 && (
-          <>
-            <Roadview
-              position={position}
-              style={ROADVIEW_CONFIG.style}
-              className="h-full rounded-lg"
-            />
-            <AmtButton color="primary" onClick={buttonStart}>
+      {address && (
+        <div className="flex flex-col h-full w-full justify-between items-center gap-2">
+          <div className="flex items-center">
+            <div className="p-2 mr-2 rounded bg-secondary text-white font-bold text-2xl">{address}</div>
+            <Button color="primary" onClick={buttonStart}>
               시작
-            </AmtButton>
-          </>
-        )}
-      </div>
+            </Button>
+          </div>
+
+          <Roadview position={position} style={ROADVIEW_CONFIG.style} className="h-full rounded-lg" />
+        </div>
+      )}
     </div>
   );
 };

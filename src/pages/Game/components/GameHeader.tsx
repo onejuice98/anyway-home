@@ -1,4 +1,4 @@
-import AmtButton from "../../../common/button/AmtButton";
+import Button from "../../../common/button";
 
 interface GameHeaderProps {
   destination: string;
@@ -21,9 +21,9 @@ const GameHeader = ({ destination, handleOpen }: GameHeaderProps) => {
       </div>
       <div className="flex gap-2 mt-2 items-center">
         <Playtime />
-        <AmtButton color="primary" onClick={handleOpen}>
+        <Button color="primary" onClick={handleOpen}>
           Map
-        </AmtButton>
+        </Button>
         <div className="animate-wiggle text-2xl">👋</div>
       </div>
     </div>

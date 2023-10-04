@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import { ButtonProps } from "./button";
-import AmtButton from "./AmtButton";
+import Button from ".";
 
 const LinkButton = ({ url = "", color, children }: ButtonProps) => {
   return (
     <Link to={url}>
-      <AmtButton color={color}>{children}</AmtButton>
+      <Button color={color}>{children}</Button>
     </Link>
   );
 };
