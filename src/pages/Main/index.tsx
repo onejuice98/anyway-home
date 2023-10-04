@@ -1,25 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDaumPostcodePopup } from "react-daum-postcode";
 import LinkButton from "../../common/button/LinkButton";
 import AmtButton from "../../common/button/AmtButton";
 import useAxios from "../../util/hooks/useAxios";
 import { getAddressByLatLng } from "../../util/api/kakaoLocal";
-
-interface DestinationPreviewProps {
-  address: string;
-}
+import { Roadview } from "react-kakao-maps-sdk";
 
 interface SearchAddressProps {
   address: string;
   handleSearchClick: () => void;
 }
 
+export type Position = { lat: number; lng: number; radius: number };
+
 type AddressDataType = {
   address: string;
   addressType: "R" | "J";
   bname: string;
   buildingName: string;
+};
+
+const DEFAULT_RADIUS = 50;
+export const ROADVIEW_CONFIG = {
+  // 로드뷰 크기
+  style: {
+    width: "100%",
+    height: "100%",
+  },
 };
 // *주소 입력 관련 컴포넌트* --> props 사용 확실 시까지 주석처리
 // const InputAddress = (props: HTMLInputElement) => {
@@ -35,14 +43,6 @@ type AddressDataType = {
 //         </button>
 //     );
 // }
-
-const DestinationPreview = ({ address }: DestinationPreviewProps) => {
-  return (
-    <div className="bg-blue-300 h-full w-full mb-3 flex justify-center items-center rounded-lg">
-      {address}
-    </div>
-  );
-};
 
 const SearchAddress = ({ address, handleSearchClick }: SearchAddressProps) => {
   return (
@@ -66,9 +66,23 @@ const SearchAddress = ({ address, handleSearchClick }: SearchAddressProps) => {
 const Main = () => {
   const [address, setAddress] = useState<string>("");
 
-  const { data: latLng, apiPromise: getLatLng } = useAxios({
+  const [position, setPosition] = useState<Position>({
+    lat: 0,
+    lng: 0,
+    radius: DEFAULT_RADIUS,
+  });
+
+  const { apiPromise: getLatLng } = useAxios({
     url: getAddressByLatLng,
     method: "get",
+    resolve: (response) => {
+      const { data } = response;
+      setPosition((prev) => ({
+        ...prev,
+        lat: Number(data.documents[0].y),
+        lng: Number(data.documents[0].x),
+      }));
+    },
   });
 
   const open = useDaumPostcodePopup();
@@ -94,7 +108,7 @@ const Main = () => {
   const navigate = useNavigate();
 
   const buttonStart = () => {
-    navigate("/game", { state: { address, latLng } });
+    navigate("/game", { state: { address, position } });
   };
 
   return (
@@ -127,15 +141,17 @@ const Main = () => {
       </div>
 
       <div className="flex flex-col h-full w-full justify-between items-center">
-        {address ? (
+        {position.lat !== 0 && (
           <>
-            <DestinationPreview address={address} />
+            <Roadview
+              position={position}
+              style={ROADVIEW_CONFIG.style}
+              className="h-full rounded-lg"
+            />
             <AmtButton color="primary" onClick={buttonStart}>
               시작
             </AmtButton>
           </>
-        ) : (
-          <div className="text-6xl animate-moving">🫠</div>
         )}
       </div>
     </div>
