@@ -4,8 +4,10 @@ import Main from "./pages/Main";
 import Game from "./pages/Game";
 import Ranking from "./pages/Ranking";
 import Credits from "./pages/Credits";
+import useKakaoLoader from "./util/hooks/useKakaoLoader";
 
 function App() {
+  useKakaoLoader();
   return (
     <div className="App">
       <BrowserRouter>

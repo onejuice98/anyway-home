@@ -1,18 +1,11 @@
 import { Map, MapMarker, Roadview } from "react-kakao-maps-sdk";
-import useKakaoLoader from "../../../util/hooks/useKakaoLoader";
 import { useState } from "react";
+import { Position, ROADVIEW_CONFIG } from "../../Main";
 
 interface GameContentProps {
   mapOpen: boolean;
+  position: Position;
 }
-
-const ROADVIEW_CONFIG = {
-  // 로드뷰 크기
-  style: {
-    width: "100%",
-    height: "100%",
-  },
-};
 
 const MAP_CONFIG = {
   // 지도 크기
@@ -22,27 +15,24 @@ const MAP_CONFIG = {
   },
 };
 
-type PositionType = { lat: number; lng: number };
-const DEFAULT_POSITION: PositionType = {
-  lat: 33.450701,
-  lng: 126.570667,
-};
-
-const GameContent = ({ mapOpen }: GameContentProps) => {
-  useKakaoLoader();
-
-  const [userPosition, setUserPosition] =
-    useState<PositionType>(DEFAULT_POSITION);
-
+const GameContent = ({ mapOpen, position }: GameContentProps) => {
+  const [userPosition, setUserPosition] = useState(position);
   return (
     <>
       <Roadview
-        // Radius 의 존재 의미?
         // 해당 lat와 lng에 해당하는 radius범위 안에서 가장가까운 Roadview을 선택합니다.
         // * 만약 없다면 lat, lng로 설정 됩니다.
-        position={{ ...userPosition, radius: 50 }}
+        position={userPosition}
         style={ROADVIEW_CONFIG.style}
         className="h-full rounded-lg"
+        onPositionChanged={(target) => {
+          const position = target.getPosition();
+          setUserPosition((prev) => ({
+            ...prev,
+            lat: position.getLat(),
+            lng: position.getLng(),
+          }));
+        }}
       />
       {mapOpen && (
         <Map // 지도를 표시할 Container

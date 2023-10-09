@@ -1,7 +1,7 @@
 import { ButtonProps, buttonConfig } from "./button";
 import cx from "classnames";
 
-const AmtButton = ({ color, children, onClick }: ButtonProps) => {
+const Button = ({ color, children, onClick }: ButtonProps) => {
   return (
     <button
       className={cx(
@@ -17,4 +17,4 @@ const AmtButton = ({ color, children, onClick }: ButtonProps) => {
   );
 };
 
-export default AmtButton;
+export default Button;
